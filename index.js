@@ -33,6 +33,23 @@ app.get("/messages", async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 });
+app.delete('/message/:id', async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    // Find the message by ID and delete it
+    const deletedMessage = await Message.findByIdAndDelete(id);
+
+    if (!deletedMessage) {
+      return res.status(404).json({ message: 'Message not found' });
+    }
+
+    // Return a success message after deletion
+    return res.status(200).json({ message: 'Message deleted successfully' });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
 
 app.post("/post", async (req, res) => {
   try {
