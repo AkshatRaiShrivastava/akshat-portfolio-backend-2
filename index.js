@@ -1,5 +1,6 @@
 // Import the express module
 const express = require("express");
+const cors = require("cors");
 const app = express();
 const Message = require("./messageModel");
 
@@ -8,21 +9,20 @@ require("dotenv").config();
 const PORT = process.env.PORT || 3000;
 
 const mongoose = require("mongoose");
-
 // MongoDB connection URI
 const mongoURI = process.env.MONGO_URI; // Replace with your MongoDB URI
-
 // Connect to MongoDB
 mongoose
-  .connect(mongoURI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
-  .then(() => console.log("Connected to MongoDB"))
-  .catch((err) => console.error("Error connecting to MongoDB:", err));
+.connect(mongoURI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+})
+.then(() => console.log("Connected to MongoDB"))
+.catch((err) => console.error("Error connecting to MongoDB:", err));
 
 // Middleware to parse JSON
 app.use(express.json());
+app.use(cors());
 
 // Define a test route
 app.get("/messages", async (req, res) => {
